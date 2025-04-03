@@ -28,7 +28,7 @@ const Status createHeapFile(const string fileName)
 
         hdrPage = (FileHdrPage*)newPage;
         strcpy(hdrPage -> fileName, fileName.c_str());
-        hdrPage -> pageCnt = 0;
+        hdrPage -> pageCnt = 1;
         hdrPage -> recCnt = 0;
 
         status = bufMgr->allocPage(file, newPageNo, newPage);
@@ -485,6 +485,9 @@ const Status InsertFileScan::insertRecord(const Record & rec, RID& outRid)
     if(status == NOSPACE ){
         //allocate new page
         status = bufMgr->allocPage(filePtr, newPageNo, newPage);
+        //int tmp = headerPage -> pageCnt;
+		//cout << tmp << endl;
+
         if (status != OK)  return status;
         newPage -> init(newPageNo);
         headerPage -> lastPage = newPageNo;
@@ -498,7 +501,7 @@ const Status InsertFileScan::insertRecord(const Record & rec, RID& outRid)
 
         //update curpage and then read in the right stuff
         curPageNo = newPageNo;
-        status = bufMgr -> readPage(filePtr, curPageNo, curPage);
+        curPage = newPage;
         if (status != OK)  return status;
 
         curPage -> insertRecord(rec, rid);

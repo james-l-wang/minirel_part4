@@ -94,7 +94,7 @@ int main(int argc, char **argv)
 
     cout << "inserted " << num << " records into file dummy.02 successfully" << endl;
     cout << endl;
-    
+
     cout << endl;
     cout << "pull 11th record from file dummy.02 using file->getRecord() " << endl;
     file1 = new HeapFile("dummy.02", status); // open the file
@@ -134,6 +134,8 @@ int main(int argc, char **argv)
 
 		while (((status = scan1->scanNext(rec2Rid)) != FILEEOF))
 		{
+			cout << rec2Rid.pageNo << endl;
+            cout << rec2Rid.slotNo << endl;
             // reconstruct record i
 			sprintf(rec1.s, "This is record %05d", i);
     	    rec1.i = i;
@@ -151,6 +153,8 @@ int main(int argc, char **argv)
                  << endl;
         
     }
+    exit(1);
+
     // delete scan object
     scan1->endScan();
     delete scan1;

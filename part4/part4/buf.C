@@ -190,6 +190,8 @@ const Status BufMgr::unPinPage(File* file, const int PageNo,
         return PAGENOTPINNED;
     }
     else bufTable[frameNo].pinCnt--;
+    //int tmp = bufTable[frameNo].pinCnt;
+    //cout << tmp << endl;
     return OK;
 }
 
